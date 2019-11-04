@@ -20,18 +20,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
-    private MainViewModel mainViewModel;
-    private SettingsViewModel settingsViewModel;
-    private HistoryViewModel historyViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        settingsViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
-        historyViewModel = ViewModelProviders.of(this).get(HistoryViewModel.class);
         viewPager = findViewById(R.id.main_view_pager);
         viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         bottomNavigationView = findViewById(R.id.main_bottom_navigation);
