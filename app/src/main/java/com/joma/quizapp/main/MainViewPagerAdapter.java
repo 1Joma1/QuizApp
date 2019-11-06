@@ -8,9 +8,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.joma.quizapp.history.HistoryFragment;
 import com.joma.quizapp.settings.SettingsFragment;
 
-public class MainAdapter extends FragmentPagerAdapter {
+public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
-    public MainAdapter(@NonNull FragmentManager fm) {
+    MainViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 

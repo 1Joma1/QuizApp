@@ -13,19 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.joma.quizapp.R;
+import com.joma.quizapp.core.CoreFragment;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends CoreFragment {
 
     private SettingsViewModel mViewModel;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.settings_fragment, container, false);
     }
 
     @Override
@@ -35,4 +30,13 @@ public class SettingsFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.settings_fragment;
+    }
+
+    @Override
+    protected void initView(View view) {
+
+    }
 }

@@ -13,8 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.joma.quizapp.R;
+import com.joma.quizapp.core.CoreFragment;
 
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends CoreFragment {
 
     private HistoryViewModel mViewModel;
 
@@ -23,9 +24,13 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.history_fragment, container, false);
+    protected int getLayoutId() {
+        return R.layout.history_fragment;
+    }
+
+    @Override
+    protected void initView(View view) {
+
     }
 
     @Override

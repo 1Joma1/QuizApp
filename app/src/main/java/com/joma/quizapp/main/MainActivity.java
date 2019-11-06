@@ -2,19 +2,13 @@ package com.joma.quizapp.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.joma.quizapp.R;
-import com.joma.quizapp.history.HistoryViewModel;
-import com.joma.quizapp.settings.SettingsViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = findViewById(R.id.main_view_pager);
-        viewPager.setAdapter(new MainAdapter(getSupportFragmentManager()));
         bottomNavigationView = findViewById(R.id.main_bottom_navigation);
+        viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager()));
 
         init();
     }
@@ -42,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.menu_quiz:
+                    case R.id.menu_main:
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.menu_history:
@@ -55,28 +49,20 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        bottomNavigationView.setSelectedItemId(R.id.menu_quiz);
+                        bottomNavigationView.setSelectedItemId(R.id.menu_main);
                         break;
                     case 1:
                         bottomNavigationView.setSelectedItemId(R.id.menu_history);
                         break;
                     case 2:
                         bottomNavigationView.setSelectedItemId(R.id.menu_settings);
+                        break;
                 }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
