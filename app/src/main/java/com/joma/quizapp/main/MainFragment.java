@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.joma.quizapp.OnSeekBarListener;
 import com.joma.quizapp.R;
 import com.joma.quizapp.core.CoreFragment;
 
@@ -56,24 +57,14 @@ public class MainFragment extends CoreFragment {
         seekBarListener();
     }
 
-    private void seekBarListener(){
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+    private void seekBarListener() {
+        seekBar.setOnSeekBarChangeListener(new OnSeekBarListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (i == 0){
+                if (i == 0) {
                     seekBar.setProgress(1);
                 }
                 amountText.setText(String.valueOf(seekBar.getProgress()));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
