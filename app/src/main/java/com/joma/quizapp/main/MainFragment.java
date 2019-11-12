@@ -2,23 +2,21 @@ package com.joma.quizapp.main;
 
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.joma.quizapp.OnSeekBarListener;
+import com.joma.quizapp.core.SimpleOnSeekBarChangeListener;
 import com.joma.quizapp.R;
 import com.joma.quizapp.core.CoreFragment;
+import com.joma.quizapp.quiz.QuizActivity;
 
 import org.angmarch.views.NiceSpinner;
 
@@ -29,6 +27,10 @@ public class MainFragment extends CoreFragment {
     private TextView amountText;
     private NiceSpinner categorySpinner, difficultySpinner;
     private Button startButton;
+
+    private int questionAmount;
+    private String category;
+    private String difficulty;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -55,14 +57,27 @@ public class MainFragment extends CoreFragment {
         amountText = view.findViewById(R.id.tv_question_amount);
         startButton = view.findViewById(R.id.start_button);
         seekBarListener();
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                questionAmount = seekBar.getProgress();
+                category = categorySpinner.getSelectedItem().toString();
+                difficulty = difficultySpinner.getSelectedItem().toString();
+                Intent intent = new Intent(getContext(), QuizActivity.class);
+                intent.putExtra("questionAmount", questionAmount);
+                intent.putExtra("category", category);
+                intent.putExtra("difficulty", difficulty);
+                startActivity(intent);
+            }
+        });
     }
 
     private void seekBarListener() {
-        seekBar.setOnSeekBarChangeListener(new OnSeekBarListener() {
+        seekBar.setOnSeekBarChangeListener(new SimpleOnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                if (i == 0) {
-                    seekBar.setProgress(1);
+                if (i < 6) {
+                    seekBar.setProgress(5);
                 }
                 amountText.setText(String.valueOf(seekBar.getProgress()));
             }

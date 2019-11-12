@@ -1,8 +1,8 @@
-package com.joma.quizapp;
+package com.joma.quizapp.core;
 
 import android.widget.SeekBar;
 
-public class OnSeekBarListener implements SeekBar.OnSeekBarChangeListener {
+public class SimpleOnSeekBarChangeListener implements SeekBar.OnSeekBarChangeListener {
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 

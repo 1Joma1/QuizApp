@@ -4,10 +4,14 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="black">#000000</color>
+    <color name="settings_black">#000000</color>
+    <color name="settings_line">#EEEEEE</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#7F7F7F</color>
     <color name="purple">#BE52F2</color>
     <color name="dark_purple">#3F3356</color>
     <color name="gray_hint">#A9A9A9</color>
     <color name="blue">#6979F8</color>
+    <color name="dark_blue">#1F2041</color>
+    <color name="history_hint">#801F2041</color>
 </resources>

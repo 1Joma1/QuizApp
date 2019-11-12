@@ -40,6 +40,7 @@
         android:layout_alignBottom="@id/tv_question_amount_hint"
         android:layout_toEndOf="@id/tv_question_amount_hint"
         android:text="10"
+        android:includeFontPadding="false"
         android:textColor="@color/dark_purple"
         android:textSize="16sp" />
 
