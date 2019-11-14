@@ -1,12 +1,12 @@
-package com.joma.quizapp.main;
+package com.joma.quizapp.presentation.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.joma.quizapp.history.HistoryFragment;
-import com.joma.quizapp.settings.SettingsFragment;
+import com.joma.quizapp.presentation.history.HistoryFragment;
+import com.joma.quizapp.presentation.settings.SettingsFragment;
 
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
 

@@ -1,18 +1,13 @@
-package com.joma.quizapp.history;
-
-import androidx.lifecycle.ViewModelProviders;
+package com.joma.quizapp.presentation.history;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import android.view.View;
+
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.joma.quizapp.R;
 import com.joma.quizapp.core.CoreFragment;
@@ -34,7 +29,7 @@ public class HistoryFragment extends CoreFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.history_fragment;
+        return R.layout.fragment_history;
     }
 
     @Override

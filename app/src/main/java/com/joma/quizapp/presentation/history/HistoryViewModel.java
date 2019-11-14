@@ -1,4 +1,4 @@
-package com.joma.quizapp.history;
+package com.joma.quizapp.presentation.history;
 
 import androidx.lifecycle.ViewModel;
 

@@ -1,4 +1,4 @@
-package com.joma.quizapp.main;
+package com.joma.quizapp.presentation.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,5 +65,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem()==0){
+            super.onBackPressed();
+        } else {
+            viewPager.setCurrentItem(0, false);
+        }
     }
 }

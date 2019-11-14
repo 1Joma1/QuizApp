@@ -4,17 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.MainFragment">
+    tools:context=".presentation.main.MainFragment">
 
     <TextView
+        style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="sans-serif-black"
-        android:text="Quiz"
-        android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:text="Quiz" />
 
     <ImageView
         android:layout_width="50dp"
@@ -30,7 +26,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="200dp"
         android:text="Questions amount: "
-        android:textColor="@color/gray_hint"
+        android:textColor="@color/light_grey"
         android:textSize="14sp" />
 
     <TextView
@@ -39,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/tv_question_amount_hint"
         android:layout_toEndOf="@id/tv_question_amount_hint"
-        android:text="10"
         android:includeFontPadding="false"
+        android:text="10"
         android:textColor="@color/dark_purple"
         android:textSize="16sp" />
 
@@ -51,8 +47,8 @@
         android:layout_below="@id/tv_question_amount_hint"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="6dp"
-        android:progress="10"
         android:layout_marginRight="70dp"
+        android:progress="10"
         android:progressTint="@color/purple"
         android:thumbTint="@color/purple"
         tools:ignore="UnusedAttribute" />
@@ -65,7 +61,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="12dp"
         android:text="Category"
-        android:textColor="@color/gray_hint" />
+        android:textColor="@color/light_grey" />
 
     <org.angmarch.views.NiceSpinner
         android:id="@+id/nice_spinner_category"
@@ -74,7 +70,9 @@
         android:layout_below="@id/tv_question_category_hint"
         android:layout_marginLeft="70dp"
         android:layout_marginRight="70dp"
-        app:entries="@array/category_list" />
+        android:gravity="start"
+        app:entries="@array/category_list"
+        app:popupTextAlignment="start" />
 
     <TextView
         android:id="@+id/tv_question_difficulty_hint"
@@ -84,7 +82,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="12dp"
         android:text="Difficulty"
-        android:textColor="@color/gray_hint" />
+        android:textColor="@color/light_grey" />
 
     <org.angmarch.views.NiceSpinner
         android:id="@+id/nice_spinner_difficulty"
@@ -93,7 +91,8 @@
         android:layout_below="@id/tv_question_difficulty_hint"
         android:layout_marginLeft="70dp"
         android:layout_marginRight="70dp"
-        app:entries="@array/difficulty_list" />
+        app:entries="@array/difficulty_list"
+        app:popupTextAlignment="start" />
 
     <Button
         android:id="@+id/start_button"

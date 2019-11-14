@@ -1,6 +1,5 @@
-package com.joma.quizapp.history;
+package com.joma.quizapp.presentation.history;
 
-import android.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.joma.quizapp.R;
 import com.joma.quizapp.model.History;
-import com.joma.quizapp.model.Question;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

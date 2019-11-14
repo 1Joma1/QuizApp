@@ -1,4 +1,4 @@
-package com.joma.quizapp.result;
+package com.joma.quizapp.presentation.result;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,4 +19,5 @@ public class ResultActivity extends AppCompatActivity {
         resultViewModel = ViewModelProviders.of(this).get(ResultViewModel.class);
 
     }
+
 }
