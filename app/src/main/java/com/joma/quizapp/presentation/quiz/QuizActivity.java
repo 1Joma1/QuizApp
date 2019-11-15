@@ -55,6 +55,6 @@ public class QuizActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.quiz_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(new QuizAdapter(questionList));
-        recyclerView.scrollToPosition(2);
+        recyclerView.scrollToPosition(1);
     }
 }
