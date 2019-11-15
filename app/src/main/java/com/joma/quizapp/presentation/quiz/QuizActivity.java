@@ -8,9 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.joma.quizapp.R;
 import com.joma.quizapp.model.Question;
@@ -28,7 +25,7 @@ public class QuizActivity extends AppCompatActivity {
     private static String EXTRA_CATEGORY = "category";
     private static String EXTRA_DIFFICULTY = "difficulty";
 
-    public static void start(Context context, int amount, String category, String difficulty){
+    public static void start(Context context, int amount, String category, String difficulty) {
         Intent intent = new Intent(context, QuizActivity.class);
         intent.putExtra(EXTRA_AMOUNT, amount);
         intent.putExtra(EXTRA_CATEGORY, category);
