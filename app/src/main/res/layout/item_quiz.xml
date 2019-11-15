@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingStart="56dp"
+    android:paddingEnd="56dp">
+
+    <TextView
+        android:id="@+id/item_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:text="What is the largest city and commercial capital of Sri Lanka?"
+        android:textAlignment="center"
+        android:textColor="@color/dark_purple"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/item_multiple_answer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/item_answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/round_blue_button"
+            android:text="Colombo"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/item_answer_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/round_outline_blue_button"
+            android:text="Moratuwa"
+            android:textColor="@color/blue" />
+
+        <Button
+            android:id="@+id/item_answer_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/round_outline_blue_button"
+            android:text="Negombo"
+            android:textColor="@color/blue" />
+
+        <Button
+            android:id="@+id/item_answer_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_outline_blue_button"
+            android:text="Kandy"
+            android:textColor="@color/blue" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/item_boolean_answer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/item_answer_yes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/round_outline_blue_button"
+            android:text="Yes"
+            android:textColor="@color/blue" />
+
+        <Button
+            android:id="@+id/item_answer_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/round_outline_blue_button"
+            android:text="No"
+            android:textColor="@color/blue" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/item_answer_yes_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                android:src="@drawable/circle_check_button" />
+
+            <ImageView
+                android:id="@+id/item_answer_no_img"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                android:src="@drawable/circle_cross_button" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
