@@ -54,8 +54,8 @@ public class QuizActivity extends AppCompatActivity {
         category = getIntent().getIntExtra(EXTRA_CATEGORY, 0) + 8;
         if (category == 8) category = null;
 
-        difficulty = getIntent().getStringExtra(EXTRA_DIFFICULTY);
-        if (difficulty.equals("Any")) difficulty = null;
+        difficulty = getIntent().getStringExtra(EXTRA_DIFFICULTY).toLowerCase();
+        if (difficulty.equals("any")) difficulty = null;
 
         getQuestions();
 
@@ -71,14 +71,12 @@ public class QuizActivity extends AppCompatActivity {
             public void onSuccess(List<Question> questions) {
                 questionList.addAll(questions);
                 adapter.notifyDataSetChanged();
-                Log.e("----------", questions + "");
             }
 
             @Override
             public void onFailure(Exception e) {
                 Log.e("-----------", e.getMessage());
             }
-        }, amount, category, difficulty.toLowerCase());
-        Log.e("------------", "amount: " + amount + "category: " + category + "difficulty: " + difficulty.toLowerCase());
+        }, amount, category, difficulty);
     }
 }
