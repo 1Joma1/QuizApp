@@ -76,16 +76,14 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             if (question.getType().equals("multiple")){
                 multiLayout.setVisibility(View.VISIBLE);
                 booleanLayout.setVisibility(View.GONE);
-                button.setText(question.getCorrect_answer());
-                button1.setText(question.getIncorrect_answers().get(0));
-                button2.setText(question.getIncorrect_answers().get(1));
-                button3.setText(question.getIncorrect_answers().get(2));
+                button.setText(question.getCorrectAnswer());
+                button1.setText(question.getIncorrectAnswers().get(0));
+                button2.setText(question.getIncorrectAnswers().get(1));
+                button3.setText(question.getIncorrectAnswers().get(2));
             }
             if (question.getType().equals("boolean")){
                 booleanLayout.setVisibility(View.VISIBLE);
                 multiLayout.setVisibility(View.GONE);
-            } else {
-                Log.e("-----", "question undefined type: " + question.getType());
             }
         }
     }

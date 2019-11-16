@@ -1,5 +1,7 @@
 package com.joma.quizapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Question {
@@ -7,19 +9,18 @@ public class Question {
     private String type;
     private String difficulty;
     private String question;
-    private String correct_answer;
-    private List<String> incorrect_answers;
+    @SerializedName("correct_answer")
+    private String correctAnswer;
+    @SerializedName("incorrect_answers")
+    private List<String> incorrectAnswers;
 
-    public Question() {
-    }
-
-    public Question(String category, String type, String difficulty, String question, String correct_answer, List<String> incorrect_answers) {
+    public Question(String category, String type, String difficulty, String question, String correctAnswer, List<String> incorrectAnswers) {
         this.category = category;
         this.type = type;
         this.difficulty = difficulty;
         this.question = question;
-        this.correct_answer = correct_answer;
-        this.incorrect_answers = incorrect_answers;
+        this.correctAnswer = correctAnswer;
+        this.incorrectAnswers = incorrectAnswers;
     }
 
     public String getCategory() {
@@ -54,19 +55,19 @@ public class Question {
         this.question = question;
     }
 
-    public String getCorrect_answer() {
-        return correct_answer;
+    public String getCorrectAnswer() {
+        return correctAnswer;
     }
 
-    public void setCorrect_answer(String correct_answer) {
-        this.correct_answer = correct_answer;
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
 
-    public List<String> getIncorrect_answers() {
-        return incorrect_answers;
+    public List<String> getIncorrectAnswers() {
+        return incorrectAnswers;
     }
 
-    public void setIncorrect_answers(List<String> incorrect_answers) {
-        this.incorrect_answers = incorrect_answers;
+    public void setIncorrectAnswers(List<String> incorrectAnswers) {
+        this.incorrectAnswers = incorrectAnswers;
     }
 }

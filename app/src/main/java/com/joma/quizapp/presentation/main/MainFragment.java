@@ -40,7 +40,7 @@ public class MainFragment extends CoreFragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuizActivity.start(getContext(), seekBar.getProgress(), categorySpinner.getSelectedItem().toString(), difficultySpinner.getSelectedItem().toString());
+                QuizActivity.start(getContext(), seekBar.getProgress(), categorySpinner.getSelectedIndex(), difficultySpinner.getSelectedItem().toString());
             }
         });
     }
