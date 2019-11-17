@@ -1,6 +1,5 @@
 package com.joma.quizapp.presentation.quiz;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.joma.quizapp.R;
 import com.joma.quizapp.model.Question;
-import com.joma.quizapp.presentation.history.HistoryAdapter;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 

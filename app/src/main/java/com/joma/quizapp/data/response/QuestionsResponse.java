@@ -1,4 +1,4 @@
-package com.joma.quizapp.data;
+package com.joma.quizapp.data.response;
 
 import com.google.gson.annotations.SerializedName;
 import com.joma.quizapp.model.Question;

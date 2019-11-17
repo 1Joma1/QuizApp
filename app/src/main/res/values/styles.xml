@@ -27,7 +27,7 @@
         <item name="android:textColor">@color/dark_purple</item>
     </style>
 
-    <style name="SubText" parent="AppTheme.LightText">
+    <style name="SubText" parent="AppTheme.RegularText">
         <item name="android:textSize">@dimen/subtitle_text_size</item>
         <item name="android:textColor">@color/dark_purple</item>
         <item name="android:padding">@dimen/content_margin</item>

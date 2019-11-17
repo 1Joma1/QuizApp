@@ -6,7 +6,7 @@
     android:layout_marginTop="20dp"
     android:layout_marginRight="20dp"
     android:background="@drawable/bg_history_item"
-    android:elevation="2dp"
+    android:elevation="4dp"
     android:orientation="vertical"
     android:paddingLeft="14dp"
     android:paddingTop="8dp"

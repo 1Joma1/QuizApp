@@ -22,8 +22,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="60dp"
-        android:gravity="center"
-        android:text="Geography" />
+        android:gravity="center"/>
 
     <ProgressBar
         android:id="@+id/quiz_progress"
@@ -62,5 +61,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="24dp"/>
+    <ProgressBar
+        android:id="@+id/quiz_loading_progress"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.joma.quizapp.data;
 
-import android.util.Log;
+import com.joma.quizapp.data.response.CategoriesResponse;
+import com.joma.quizapp.data.response.QuestionsResponse;
+import com.joma.quizapp.data.response.TotalQuestionResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,11 +21,58 @@ public class QuizRepository implements IQuizRepository {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    private TriviaClient client = retrofit.create(TriviaClient.class);
+
+    @Override
+    public void getTotalQuestion(OnTotalQuestionCallBack callBack) {
+        Call<TotalQuestionResponse> call = retrofit.create(TriviaTotalQuestions.class).getTotalQuestion();
+        call.enqueue(new Callback<TotalQuestionResponse>() {
+            @Override
+            public void onResponse(Call<TotalQuestionResponse> call, Response<TotalQuestionResponse> response) {
+                if (response.isSuccessful()){
+                    if (response.body()!=null){
+                        callBack.onSuccess(response.body().getOverall(), response.body().getCategories());
+                    } else {
+                        callBack.onFailure(new Exception("Remote data error"));
+                    }
+                } else {
+                    callBack.onFailure(new Exception("Remote data error"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TotalQuestionResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getCategory(OnCategoryCallBack callBack) {
+        Call<CategoriesResponse> call = retrofit.create(TriviaCategories.class).getCategories();
+        call.enqueue(new Callback<CategoriesResponse>() {
+            @Override
+            public void onResponse(Call<CategoriesResponse> call, Response<CategoriesResponse> response) {
+                if (response.isSuccessful()){
+                    if (response.body()!=null){
+                        callBack.onSuccess(response.body().getTriviaCategories());
+                    } else {
+                        callBack.onFailure(new Exception("Remote data error"));
+                    }
+                } else {
+                    callBack.onFailure(new Exception("Remote data error"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoriesResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
     @Override
     public void getQuiz(OnQuizCallBack callBack, int amount, Integer category, String difficulty) {
-        Call<QuestionsResponse> call = client.getQuestions(amount, category, difficulty);
+        Call<QuestionsResponse> call = retrofit.create(TriviaClient.class).getQuestions(amount, category, difficulty);
         call.enqueue(new Callback<QuestionsResponse>() {
             @Override
             public void onResponse(Call<QuestionsResponse> call, Response<QuestionsResponse> response) {
@@ -44,7 +93,6 @@ public class QuizRepository implements IQuizRepository {
             }
         });
         callBack.onFailure(new Exception("Remote data source not initialized"));
-        //TODO callBack.onSuccess();
     }
 
     private interface TriviaClient {
@@ -52,5 +100,15 @@ public class QuizRepository implements IQuizRepository {
         Call<QuestionsResponse> getQuestions(@Query("amount") int amount,
                                              @Query("category") Integer category,
                                              @Query("difficulty") String difficulty);
+    }
+
+    private interface TriviaCategories {
+        @GET("api_category.php")
+        Call<CategoriesResponse> getCategories();
+    }
+
+    private interface TriviaTotalQuestions {
+        @GET("api_count_global.php")
+        Call<TotalQuestionResponse> getTotalQuestion();
     }
 }
