@@ -3,6 +3,7 @@ package com.joma.quizapp.presentation.quiz;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +26,6 @@ import com.joma.quizapp.model.Question;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -61,12 +61,7 @@ public class QuizActivity extends AppCompatActivity {
         loading = findViewById(R.id.quiz_loading_progress);
         categoryText = findViewById(R.id.quiz_category);
         backImage = findViewById(R.id.quiz_back_image);
-        backImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        backImage.setOnClickListener(view -> finish());
 
         amount = getIntent().getIntExtra(EXTRA_AMOUNT, 1);
 
@@ -86,6 +81,8 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                int recyclerViewPos = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+                categoryText.setText(questionList.get(recyclerViewPos).getCategory());
 
             }
         });
@@ -97,6 +94,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<Question> questions) {
                 questionList.addAll(questions);
+                categoryText.setText(questionList.get(0).getCategory());
                 adapter.notifyDataSetChanged();
                 loading.setVisibility(View.GONE);
             }
