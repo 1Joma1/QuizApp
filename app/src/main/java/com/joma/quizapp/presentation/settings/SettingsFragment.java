@@ -1,7 +1,5 @@
 package com.joma.quizapp.presentation.settings;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;

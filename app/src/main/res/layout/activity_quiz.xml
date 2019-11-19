@@ -32,7 +32,7 @@
         android:layout_below="@id/quiz_category"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="18dp"
-        android:progress="10"
+        android:progress="1"
         android:progressTint="@color/purple" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/quiz_progress"
         android:layout_centerHorizontal="true"
-        android:text="2/10"
+        android:text="/"
         android:textColor="@color/black"
         android:textSize="12sp" />
 

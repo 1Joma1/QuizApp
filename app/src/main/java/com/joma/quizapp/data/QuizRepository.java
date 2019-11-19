@@ -71,7 +71,7 @@ public class QuizRepository implements IQuizRepository {
     }
 
     @Override
-    public void getQuiz(OnQuizCallBack callBack, int amount, Integer category, String difficulty) {
+    public void getQuiz(int amount, Integer category, String difficulty, OnQuizCallBack callBack) {
         Call<QuestionsResponse> call = retrofit.create(TriviaClient.class).getQuestions(amount, category, difficulty);
         call.enqueue(new Callback<QuestionsResponse>() {
             @Override

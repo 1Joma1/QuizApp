@@ -3,7 +3,6 @@ package com.joma.quizapp.presentation.quiz;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,11 +33,13 @@ public class QuizActivity extends AppCompatActivity {
     private QuizAdapter adapter;
     private ImageView backImage;
     private TextView categoryText;
+    private TextView progressText;
     private List<Question> questionList = new ArrayList<>();
     private int amount;
     private Integer category;
     private String difficulty;
     private ProgressBar loading;
+    private ProgressBar quizProgress;
     private static String EXTRA_AMOUNT = "amount";
     private static String EXTRA_CATEGORY = "category";
     private static String EXTRA_DIFFICULTY = "difficulty";
@@ -63,7 +64,13 @@ public class QuizActivity extends AppCompatActivity {
         backImage = findViewById(R.id.quiz_back_image);
         backImage.setOnClickListener(view -> finish());
 
+
         amount = getIntent().getIntExtra(EXTRA_AMOUNT, 1);
+
+        quizProgress = findViewById(R.id.quiz_progress);
+        quizProgress.setMax(amount);
+
+        progressText = findViewById(R.id.quiz_progress_text);
 
         category = getIntent().getIntExtra(EXTRA_CATEGORY, 0) + 8;
         if (category == 8) category = null;
@@ -83,19 +90,21 @@ public class QuizActivity extends AppCompatActivity {
                 super.onScrollStateChanged(recyclerView, newState);
                 int recyclerViewPos = ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 categoryText.setText(questionList.get(recyclerViewPos).getCategory());
-
+                quizProgress.setProgress(recyclerViewPos+1);
+                progressText.setText(recyclerViewPos+1+"/"+amount);
             }
         });
         new PagerSnapHelper().attachToRecyclerView(recyclerView);
     }
 
     private void getQuestions() {
-        App.quizRepository.getQuiz(new IQuizRepository.OnQuizCallBack() {
+        App.quizRepository.getQuiz(amount, category, difficulty, new IQuizRepository.OnQuizCallBack() {
             @Override
             public void onSuccess(List<Question> questions) {
                 questionList.addAll(questions);
                 categoryText.setText(questionList.get(0).getCategory());
                 adapter.notifyDataSetChanged();
+                progressText.setText("1/"+amount);
                 loading.setVisibility(View.GONE);
             }
 
@@ -103,7 +112,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onFailure(Exception e) {
                 Log.e("-----------", e.getMessage());
             }
-        }, amount, category, difficulty);
+        });
 
 
         App.quizRepository.getCategory(new IQuizRepository.OnCategoryCallBack() {

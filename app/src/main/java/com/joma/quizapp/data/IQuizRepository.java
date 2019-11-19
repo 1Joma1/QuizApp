@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface IQuizRepository {
 
-    void getQuiz(OnQuizCallBack callBack, int amount, Integer category, String difficulty);
+    void getQuiz(int amount, Integer category, String difficulty, OnQuizCallBack callBack);
     void getCategory(OnCategoryCallBack callBack);
     void getTotalQuestion(OnTotalQuestionCallBack callBack);
 

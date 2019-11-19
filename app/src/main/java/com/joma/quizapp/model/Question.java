@@ -1,5 +1,7 @@
 package com.joma.quizapp.model;
 
+import android.text.Html;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -48,7 +50,7 @@ public class Question {
     }
 
     public String getQuestion() {
-        return question;
+        return Html.fromHtml(question).toString();
     }
 
     public void setQuestion(String question) {
