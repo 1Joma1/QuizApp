@@ -12,18 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.joma.quizapp.R;
 import com.joma.quizapp.model.History;
+import com.joma.quizapp.model.Question;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>{
 
-    private List<History> histories;
-
-    public HistoryAdapter(List<History> histories) {
-        this.histories = histories;
-    }
+    private ArrayList<History> mHistories = new ArrayList<>();
 
     @NonNull
     @Override
@@ -33,12 +31,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(histories.get(position));
+        holder.bind(mHistories.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return histories.size();
+        return mHistories.size();
     }
 
 
@@ -72,6 +70,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             difficulty.setText("Difficulty: "+histories.getDifficulty());
             time.setText(df.format(new Date(histories.getTime()*1000)));
         }
+
+    }
+
+    public void setHistory(List<History> histories) {
+        mHistories.clear();
+        mHistories.addAll(histories);
+        notifyDataSetChanged();
     }
 
 }

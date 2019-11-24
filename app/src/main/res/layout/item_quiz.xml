@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
-        android:text="What is the largest city and commercial capital of Sri Lanka?"
         android:textAlignment="center"
         android:textColor="@color/dark_purple"
         android:textSize="18sp" />
@@ -85,31 +84,6 @@
             android:background="@drawable/round_outline_blue_button"
             android:text="No"
             android:textColor="@color/blue" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/item_answer_yes_img"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="12dp"
-                android:src="@drawable/circle_check_button" />
-
-            <ImageView
-                android:id="@+id/item_answer_no_img"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="12dp"
-                android:src="@drawable/circle_cross_button" />
-        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

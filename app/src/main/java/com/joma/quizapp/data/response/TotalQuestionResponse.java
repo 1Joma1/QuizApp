@@ -1,6 +1,6 @@
 package com.joma.quizapp.data.response;
 
-import com.joma.quizapp.presentation.quiz.TotalQuestion;
+import com.joma.quizapp.model.TotalQuestion;
 
 import java.util.Map;
 

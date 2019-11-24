@@ -37,9 +37,10 @@ public class HistoryFragment extends CoreFragment {
         historyList.add(new History("Entertainment: Music", "Hard", 15, 8, 1573555000));
         historyList.add(new History("Entertainment: Video Games", "Medium", 12, 10, 1573555055));
         historyList.add(new History("Entertainment: Cartoon & Animations", "Easy", 6, 5, 1573554399));
+        adapter = new HistoryAdapter();
+        adapter.setHistory(historyList);
         recyclerView = view.findViewById(R.id.history_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        adapter = new HistoryAdapter(historyList);
         recyclerView.setAdapter(adapter);
     }
 

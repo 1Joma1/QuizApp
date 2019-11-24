@@ -2,7 +2,7 @@ package com.joma.quizapp.data;
 
 import com.joma.quizapp.model.Category;
 import com.joma.quizapp.model.Question;
-import com.joma.quizapp.presentation.quiz.TotalQuestion;
+import com.joma.quizapp.model.TotalQuestion;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ public interface IQuizRepository {
     void getTotalQuestion(OnTotalQuestionCallBack callBack);
 
     interface OnQuizCallBack{
-        void onSuccess(List<Question> questions);
+        void onSuccess(List<Question> result);
         void onFailure(Exception e);
     }
     interface OnCategoryCallBack{

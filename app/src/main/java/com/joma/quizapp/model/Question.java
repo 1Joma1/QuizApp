@@ -1,12 +1,11 @@
 package com.joma.quizapp.model;
 
-import android.text.Html;
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Question {
+
     private String category;
     private String type;
     private String difficulty;
@@ -16,13 +15,19 @@ public class Question {
     @SerializedName("incorrect_answers")
     private List<String> incorrectAnswers;
 
-    public Question(String category, String type, String difficulty, String question, String correctAnswer, List<String> incorrectAnswers) {
+    private List<String> answers;
+
+    private int selectedAnswerPosition;
+
+    public Question(String category, String type, String difficulty, String question, String correctAnswer, List<String> incorrectAnswers, List<String> answers, int selectedAnswerPosition) {
         this.category = category;
         this.type = type;
         this.difficulty = difficulty;
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.incorrectAnswers = incorrectAnswers;
+        this.answers = answers;
+        this.selectedAnswerPosition = selectedAnswerPosition;
     }
 
     public String getCategory() {
@@ -50,7 +55,7 @@ public class Question {
     }
 
     public String getQuestion() {
-        return Html.fromHtml(question).toString();
+        return question;
     }
 
     public void setQuestion(String question) {
@@ -71,5 +76,21 @@ public class Question {
 
     public void setIncorrectAnswers(List<String> incorrectAnswers) {
         this.incorrectAnswers = incorrectAnswers;
+    }
+
+    public List<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<String> answers) {
+        this.answers = answers;
+    }
+
+    public int getSelectedAnswerPosition() {
+        return selectedAnswerPosition;
+    }
+
+    public void setSelectedAnswerPosition(int selectedAnswerPosition) {
+        this.selectedAnswerPosition = selectedAnswerPosition;
     }
 }
