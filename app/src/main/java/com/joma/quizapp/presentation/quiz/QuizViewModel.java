@@ -1,5 +1,6 @@
 package com.joma.quizapp.presentation.quiz;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -22,7 +23,8 @@ public class QuizViewModel extends ViewModel {
     MutableLiveData<Integer> currentQuestionPosition = new MutableLiveData<>();
 
     SingleLiveEvent<Void> finishEvent = new SingleLiveEvent<>();
-    SingleLiveEvent<Integer> openResultEvent = new SingleLiveEvent<>();
+    SingleLiveEvent<Void> openResultEvent = new SingleLiveEvent<>();
+    SingleLiveEvent<Void> loaded = new SingleLiveEvent<>();
 
     void init(int amount, Integer category, String difficulty) {
         quizRepository.getQuiz(amount, category, difficulty, new IQuizRepository.OnQuizCallBack() {
@@ -31,6 +33,7 @@ public class QuizViewModel extends ViewModel {
                 mQuestions = result;
                 questions.setValue(mQuestions);
                 currentQuestionPosition.setValue(0);
+                loaded.call();
             }
 
             @Override
@@ -42,20 +45,15 @@ public class QuizViewModel extends ViewModel {
 
     void onAnswerClick(int questionPosition, int answerPosition) {
         mQuestions.get(questionPosition).setSelectedAnswerPosition(answerPosition);
-        Log.e("-----", questionPosition+"//"+answerPosition);
+        Log.e("------------", "questionPos: " + questionPosition + ", answerPos: " + answerPosition);
+        new Handler().postDelayed(() -> currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1), 300);
     }
 
     void onSkipClick() {
         Integer currentPosition = currentQuestionPosition.getValue();
         if (currentPosition != null) {
             if (currentPosition == questions.getValue().size() - 1) {
-                int correctAns = 0;
-                for (int i = 0; i < mQuestions.size(); i++) {
-                    if (mQuestions.get(i).getAnswers().get(mQuestions.get(i).getSelectedAnswerPosition()).equals(mQuestions.get(i).getCorrectAnswer())){
-                        correctAns++;
-                    }
-                }
-                Log.e("---", "correct answers = " + correctAns);
+                calculateResult();
                 openResultEvent.call();
                 finishEvent.call();
             } else {
@@ -73,5 +71,15 @@ public class QuizViewModel extends ViewModel {
                 currentQuestionPosition.setValue(currentPosition - 1);
             }
         }
+    }
+
+    private void calculateResult(){
+        int correctAns = 0;
+        for (int i = 0; i < mQuestions.size(); i++) {
+            if (mQuestions.get(i).getAnswers().get(mQuestions.get(i).getSelectedAnswerPosition()).equals(mQuestions.get(i).getCorrectAnswer())) {
+                correctAns++;
+            }
+        }
+        Log.e("---", "correct answers = " + correctAns);
     }
 }

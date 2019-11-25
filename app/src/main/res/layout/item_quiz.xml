@@ -28,9 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:background="@drawable/round_blue_button"
-            android:text="Colombo"
-            android:textColor="@color/white" />
+            android:background="@drawable/round_outline_blue_button"
+            android:textColor="@color/blue" />
 
         <Button
             android:id="@+id/item_answer_1"
@@ -38,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@drawable/round_outline_blue_button"
-            android:text="Moratuwa"
             android:textColor="@color/blue" />
 
         <Button
@@ -47,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:background="@drawable/round_outline_blue_button"
-            android:text="Negombo"
             android:textColor="@color/blue" />
 
         <Button
@@ -55,7 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/round_outline_blue_button"
-            android:text="Kandy"
             android:textColor="@color/blue" />
     </LinearLayout>
 

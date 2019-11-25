@@ -1,6 +1,7 @@
 package com.joma.quizapp.presentation.quiz;
 
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
     private ArrayList<Question> mQuestions = new ArrayList<>();
     private QuizAdapter.Listener mListener;
 
-    public QuizAdapter(QuizAdapter.Listener listener){
+    public QuizAdapter(QuizAdapter.Listener listener) {
         this.mListener = listener;
     }
 
@@ -35,12 +36,26 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(mQuestions.get(position));
+        holder.bind(mQuestions.get(position), position);
     }
 
     @Override
     public int getItemCount() {
         return mQuestions.size();
+    }
+
+    public void setQuestions(List<Question> qestions) {
+        mQuestions.clear();
+        mQuestions.addAll(qestions);
+        notifyDataSetChanged();
+    }
+
+    public List<Question> getQuestions() {
+        return mQuestions;
+    }
+
+    public interface Listener {
+        void onAnswerClick(int questionPosition, int answerPosition);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -70,33 +85,43 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             booleanLayout = itemView.findViewById(R.id.item_boolean_answer_layout);
         }
 
-        public void bind(Question question) {
+        public void bind(Question question, int position) {
             questionText.setText(Html.fromHtml(question.getQuestion()));
             if (question.getType().equals("multiple")) {
                 multiLayout.setVisibility(View.VISIBLE);
                 booleanLayout.setVisibility(View.GONE);
                 button.setText(Html.fromHtml(question.getAnswers().get(0)));
+                button.setOnClickListener(view -> changeButtonColor(question, position, 0, button));
                 button1.setText(Html.fromHtml(question.getAnswers().get(1)));
+                button1.setOnClickListener(view -> changeButtonColor(question, position, 1, button1));
                 button2.setText(Html.fromHtml(question.getAnswers().get(2)));
+                button2.setOnClickListener(view -> changeButtonColor(question, position, 2, button2));
                 button3.setText(Html.fromHtml(question.getAnswers().get(3)));
+                button3.setOnClickListener(view -> changeButtonColor(question, position, 3, button3));
             }
             if (question.getType().equals("boolean")) {
                 booleanLayout.setVisibility(View.VISIBLE);
                 multiLayout.setVisibility(View.GONE);
+                buttonYes.setOnClickListener(view -> changeButtonColor(question, position, 0, buttonYes));
+                buttonNo.setOnClickListener(view -> changeButtonColor(question, position, 1, buttonNo));
             }
         }
-    }
 
-    public void setQuestions(List<Question> qestions) {
-        mQuestions.clear();
-        mQuestions.addAll(qestions);
-        notifyDataSetChanged();
-    }
-    public List<Question> getQuestions() {
-        return mQuestions;
-    }
-
-    public interface Listener {
-        void onAnswerClick(int questionPosition, int answerPPosition);
+        private void changeButtonColor(Question question, int questionPos, int answerPos, Button btn) {
+            mListener.onAnswerClick(questionPos, answerPos);
+            if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                btn.setTextColor(btn.getResources().getColor(R.color.white));
+            } else {
+                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                btn.setTextColor(btn.getResources().getColor(R.color.white));
+            }
+            button.setEnabled(false);
+            button1.setEnabled(false);
+            button2.setEnabled(false);
+            button3.setEnabled(false);
+            buttonYes.setEnabled(false);
+            buttonNo.setEnabled(false);
+        }
     }
 }

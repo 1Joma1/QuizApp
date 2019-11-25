@@ -75,7 +75,6 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
         quizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
         quizViewModel.questions.observe(this, questions -> {
             adapter.setQuestions(questions);
-            loading.setVisibility(View.GONE);
         });
         quizViewModel.currentQuestionPosition.observe(this, position -> {
             progressText.setText(position + 1 + "/" + amount);
@@ -87,6 +86,7 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
         quizViewModel.finishEvent.observe(this, aVoid -> finish());
         quizViewModel.openResultEvent.observe(this, aVoid -> ResultActivity.start(this));
         quizViewModel.init(amount, category, difficulty);
+        quizViewModel.loaded.observe(this, aVoid -> loading.setVisibility(View.GONE));
     }
 
     private void initView() {
