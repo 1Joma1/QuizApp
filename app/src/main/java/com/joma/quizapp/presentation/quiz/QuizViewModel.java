@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 import com.joma.quizapp.App;
 import com.joma.quizapp.core.SingleLiveEvent;
 import com.joma.quizapp.data.IQuizRepository;
+import com.joma.quizapp.data.history.HistoryStorage;
 import com.joma.quizapp.model.Question;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public class QuizViewModel extends ViewModel {
 
     private IQuizRepository quizRepository = App.quizRepository;
+    private HistoryStorage historyStorage = App.historyStorage;
     private List<Question> mQuestions;
 
     MutableLiveData<List<Question>> questions = new MutableLiveData<>();
@@ -45,7 +47,9 @@ public class QuizViewModel extends ViewModel {
 
     void onAnswerClick(int questionPosition, int answerPosition) {
         mQuestions.get(questionPosition).setSelectedAnswerPosition(answerPosition);
-        Log.e("------------", "questionPos: " + questionPosition + ", answerPos: " + answerPosition);
+        if (questionPosition==mQuestions.size()-1){
+            openResultEvent.call();
+        }
         new Handler().postDelayed(() -> currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1), 300);
     }
 
@@ -57,6 +61,7 @@ public class QuizViewModel extends ViewModel {
                 openResultEvent.call();
                 finishEvent.call();
             } else {
+                onAnswerClick(currentPosition, -1);
                 currentQuestionPosition.setValue(currentPosition + 1);
             }
         }

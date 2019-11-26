@@ -109,19 +109,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
         private void changeButtonColor(Question question, int questionPos, int answerPos, Button btn) {
             mListener.onAnswerClick(questionPos, answerPos);
-            if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
-                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_blue_button));
-                btn.setTextColor(btn.getResources().getColor(R.color.white));
+            if (question.getSelectedAnswerPosition()!=0) {
+                Log.e("----------", question.getSelectedAnswerPosition() + "");
+                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                    btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                    btn.setTextColor(btn.getResources().getColor(R.color.white));
+                } else {
+                    btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                    btn.setTextColor(btn.getResources().getColor(R.color.white));
+                }
             } else {
-                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_red_button));
-                btn.setTextColor(btn.getResources().getColor(R.color.white));
+                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_outline_blue_button));
+                btn.setTextColor(btn.getResources().getColor(R.color.blue));
             }
-            button.setEnabled(false);
-            button1.setEnabled(false);
-            button2.setEnabled(false);
-            button3.setEnabled(false);
-            buttonYes.setEnabled(false);
-            buttonNo.setEnabled(false);
         }
     }
 }
