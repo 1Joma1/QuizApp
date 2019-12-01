@@ -1,48 +1,32 @@
 package com.joma.quizapp.presentation.quiz;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.joma.quizapp.App;
 import com.joma.quizapp.R;
-import com.joma.quizapp.data.IQuizRepository;
-import com.joma.quizapp.model.Category;
-import com.joma.quizapp.model.Question;
-import com.joma.quizapp.model.TotalQuestion;
 import com.joma.quizapp.presentation.result.ResultActivity;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class QuizActivity extends AppCompatActivity implements QuizAdapter.Listener {
 
     private QuizViewModel quizViewModel;
     private RecyclerView recyclerView;
     private QuizAdapter adapter;
-    private ImageView backImage;
     private TextView categoryText;
     private TextView progressText;
     private Button skipButton;
-    private List<Question> questionList = new ArrayList<>();
     private int amount;
-    private Integer category;
-    private String difficulty;
     private ProgressBar loading;
     private ProgressBar quizProgress;
     private static String EXTRA_AMOUNT = "amount";
@@ -64,27 +48,26 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
 
         initView();
 
-        category = getIntent().getIntExtra(EXTRA_CATEGORY, 0) + 8;
+        Integer category = getIntent().getIntExtra(EXTRA_CATEGORY, 0) + 8;
         if (category == 8) category = null;
-        difficulty = getIntent().getStringExtra(EXTRA_DIFFICULTY).toLowerCase();
+        String difficulty = getIntent().getStringExtra(EXTRA_DIFFICULTY).toLowerCase();
         if (difficulty.equals("any")) difficulty = null;
         amount = getIntent().getIntExtra(EXTRA_AMOUNT, 5);
 
         quizProgress.setMax(amount);
 
         quizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
-        quizViewModel.questions.observe(this, questions -> {
-            adapter.setQuestions(questions);
-        });
+        quizViewModel.questions.observe(this, questions -> adapter.setQuestions(questions));
         quizViewModel.currentQuestionPosition.observe(this, position -> {
-            progressText.setText(position + 1 + "/" + amount);
+            String progressString = position + 1 + "/" + amount;
+            progressText.setText(progressString);
             quizProgress.setProgress(position + 1);
             recyclerView.smoothScrollToPosition(position);
             categoryText.setText(adapter.getQuestions().get(position).getCategory());
             skipButton.setVisibility(View.VISIBLE);
         });
         quizViewModel.finishEvent.observe(this, aVoid -> finish());
-        quizViewModel.openResultEvent.observe(this, aVoid -> ResultActivity.start(this));
+        quizViewModel.openResultEvent.observe(this, id -> ResultActivity.start(this, id));
         quizViewModel.init(amount, category, difficulty);
         quizViewModel.loaded.observe(this, aVoid -> loading.setVisibility(View.GONE));
     }
@@ -95,7 +78,7 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
         loading = findViewById(R.id.quiz_loading_progress);
         categoryText = findViewById(R.id.quiz_category);
         quizProgress = findViewById(R.id.quiz_progress);
-        backImage = findViewById(R.id.quiz_back_image);
+        ImageView backImage = findViewById(R.id.quiz_back_image);
         backImage.setOnClickListener(view -> {
             quizViewModel.onBackClick();
         });

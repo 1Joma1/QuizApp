@@ -7,8 +7,8 @@ import java.util.List;
 public class Question {
 
     private String category;
-    private String type;
-    private String difficulty;
+    private EType type;
+    private EDifficulty difficulty;
     private String question;
     @SerializedName("correct_answer")
     private String correctAnswer;
@@ -17,9 +17,9 @@ public class Question {
 
     private List<String> answers;
 
-    private int selectedAnswerPosition;
+    private Integer selectedAnswerPosition;
 
-    public Question(String category, String type, String difficulty, String question, String correctAnswer, List<String> incorrectAnswers, List<String> answers, int selectedAnswerPosition) {
+    public Question(String category, EType type, EDifficulty difficulty, String question, String correctAnswer, List<String> incorrectAnswers, List<String> answers, Integer selectedAnswerPosition) {
         this.category = category;
         this.type = type;
         this.difficulty = difficulty;
@@ -38,20 +38,24 @@ public class Question {
         this.category = category;
     }
 
-    public String getType() {
+    public EType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EType type) {
         this.type = type;
     }
 
-    public String getDifficulty() {
+    public EDifficulty getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(String difficulty) {
+    public void setDifficulty(EDifficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public void setSelectedAnswerPosition(Integer selectedAnswerPosition) {
+        this.selectedAnswerPosition = selectedAnswerPosition;
     }
 
     public String getQuestion() {
@@ -86,7 +90,7 @@ public class Question {
         this.answers = answers;
     }
 
-    public int getSelectedAnswerPosition() {
+    public Integer getSelectedAnswerPosition() {
         return selectedAnswerPosition;
     }
 

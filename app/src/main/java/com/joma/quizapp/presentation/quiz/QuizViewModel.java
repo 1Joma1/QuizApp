@@ -2,7 +2,6 @@ package com.joma.quizapp.presentation.quiz;
 
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,7 +11,9 @@ import com.joma.quizapp.core.SingleLiveEvent;
 import com.joma.quizapp.data.IQuizRepository;
 import com.joma.quizapp.data.history.HistoryStorage;
 import com.joma.quizapp.model.Question;
+import com.joma.quizapp.model.QuizResult;
 
+import java.util.Date;
 import java.util.List;
 
 public class QuizViewModel extends ViewModel {
@@ -25,7 +26,7 @@ public class QuizViewModel extends ViewModel {
     MutableLiveData<Integer> currentQuestionPosition = new MutableLiveData<>();
 
     SingleLiveEvent<Void> finishEvent = new SingleLiveEvent<>();
-    SingleLiveEvent<Void> openResultEvent = new SingleLiveEvent<>();
+    SingleLiveEvent<Integer> openResultEvent = new SingleLiveEvent<>();
     SingleLiveEvent<Void> loaded = new SingleLiveEvent<>();
 
     void init(int amount, Integer category, String difficulty) {
@@ -40,29 +41,38 @@ public class QuizViewModel extends ViewModel {
 
             @Override
             public void onFailure(Exception e) {
-                Log.e("-----------", e.getMessage());
+                Log.e("Failed", e.getMessage());
             }
         });
     }
 
     void onAnswerClick(int questionPosition, int answerPosition) {
-        mQuestions.get(questionPosition).setSelectedAnswerPosition(answerPosition);
-        if (questionPosition==mQuestions.size()-1){
-            openResultEvent.call();
+        if (currentQuestionPosition.getValue() == null || mQuestions == null) return;
+        Question question = mQuestions.get(questionPosition);
+        question.setSelectedAnswerPosition(answerPosition);
+        mQuestions.set(questionPosition, question);
+        questions.setValue(mQuestions);
+        if (questionPosition == mQuestions.size() - 1) {
+            finishQuiz();
+        } else {
+            new Handler().postDelayed(() -> currentQuestionPosition.setValue(questionPosition + 1), 300);
         }
-        new Handler().postDelayed(() -> currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1), 300);
+    }
+
+    private void finishQuiz() {
+        QuizResult result = new QuizResult(0, mQuestions, calculateResult(), new Date());
+        int resultId = historyStorage.saveQuizResult(result);
+        finishEvent.call();
+        openResultEvent.setValue(resultId);
     }
 
     void onSkipClick() {
         Integer currentPosition = currentQuestionPosition.getValue();
         if (currentPosition != null) {
-            if (currentPosition == questions.getValue().size() - 1) {
-                calculateResult();
-                openResultEvent.call();
-                finishEvent.call();
-            } else {
+            if (mQuestions.get(currentPosition).getSelectedAnswerPosition() == null) {
                 onAnswerClick(currentPosition, -1);
-                currentQuestionPosition.setValue(currentPosition + 1);
+            } else {
+                onAnswerClick(currentPosition, mQuestions.get(currentPosition).getSelectedAnswerPosition());
             }
         }
     }
@@ -78,13 +88,15 @@ public class QuizViewModel extends ViewModel {
         }
     }
 
-    private void calculateResult(){
+    private int calculateResult() {
         int correctAns = 0;
-        for (int i = 0; i < mQuestions.size(); i++) {
-            if (mQuestions.get(i).getAnswers().get(mQuestions.get(i).getSelectedAnswerPosition()).equals(mQuestions.get(i).getCorrectAnswer())) {
-                correctAns++;
+        for (Question question : mQuestions) {
+            if (question.getSelectedAnswerPosition() != null && question.getSelectedAnswerPosition() >= 0) {
+                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                    correctAns++;
+                }
             }
         }
-        Log.e("---", "correct answers = " + correctAns);
+        return correctAns;
     }
 }

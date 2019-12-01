@@ -20,8 +20,8 @@ public class HistoryStorage {
         return dao.get(id);
     }
 
-    public void saveQuizResult(QuizResult quizResult){
-        dao.insert(quizResult);
+    public int saveQuizResult(QuizResult quizResult){
+        return (int) dao.insert(quizResult);
     }
 
     public LiveData<List<QuizResult>> getAll(){

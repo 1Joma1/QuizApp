@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.joma.quizapp.R;
+import com.joma.quizapp.model.EType;
 import com.joma.quizapp.model.Question;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(mQuestions.get(position), position);
+        holder.bind(mQuestions.get(position));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public List<Question> getQuestions() {
+    List<Question> getQuestions() {
         return mQuestions;
     }
 
@@ -58,7 +58,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         void onAnswerClick(int questionPosition, int answerPosition);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private Listener mListener;
         private TextView questionText;
@@ -71,7 +71,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         private View multiLayout;
         private View booleanLayout;
 
-        public ViewHolder(@NonNull View itemView, Listener listener) {
+        ViewHolder(@NonNull View itemView, Listener listener) {
             super(itemView);
             mListener = listener;
             questionText = itemView.findViewById(R.id.item_question);
@@ -85,42 +85,126 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
             booleanLayout = itemView.findViewById(R.id.item_boolean_answer_layout);
         }
 
-        public void bind(Question question, int position) {
+        void bind(Question question) {
             questionText.setText(Html.fromHtml(question.getQuestion()));
-            if (question.getType().equals("multiple")) {
+
+            if (question.getType() == EType.MULTIPLE) {
                 multiLayout.setVisibility(View.VISIBLE);
                 booleanLayout.setVisibility(View.GONE);
+                resetButtonColor(button);
+                resetButtonColor(button1);
+                resetButtonColor(button2);
+                resetButtonColor(button3);
+                selectedButton(question);
                 button.setText(Html.fromHtml(question.getAnswers().get(0)));
-                button.setOnClickListener(view -> changeButtonColor(question, position, 0, button));
                 button1.setText(Html.fromHtml(question.getAnswers().get(1)));
-                button1.setOnClickListener(view -> changeButtonColor(question, position, 1, button1));
                 button2.setText(Html.fromHtml(question.getAnswers().get(2)));
-                button2.setOnClickListener(view -> changeButtonColor(question, position, 2, button2));
                 button3.setText(Html.fromHtml(question.getAnswers().get(3)));
-                button3.setOnClickListener(view -> changeButtonColor(question, position, 3, button3));
-            }
-            if (question.getType().equals("boolean")) {
+                button.setOnClickListener(view -> changeButtonColorOnClick(question, 0, button));
+                button1.setOnClickListener(view -> changeButtonColorOnClick(question, 1, button1));
+                button2.setOnClickListener(view -> changeButtonColorOnClick(question, 2, button2));
+                button3.setOnClickListener(view -> changeButtonColorOnClick(question, 3, button3));
+            } else {
                 booleanLayout.setVisibility(View.VISIBLE);
                 multiLayout.setVisibility(View.GONE);
-                buttonYes.setOnClickListener(view -> changeButtonColor(question, position, 0, buttonYes));
-                buttonNo.setOnClickListener(view -> changeButtonColor(question, position, 1, buttonNo));
+                resetButtonColor(buttonYes);
+                resetButtonColor(buttonNo);
+                selectedButton(question);
+                buttonYes.setText(Html.fromHtml(question.getAnswers().get(0)));
+                buttonNo.setText(Html.fromHtml(question.getAnswers().get(1)));
+                buttonYes.setOnClickListener(view -> changeButtonColorOnClick(question, 0, buttonYes));
+                buttonNo.setOnClickListener(view -> changeButtonColorOnClick(question, 1, buttonNo));
             }
         }
 
-        private void changeButtonColor(Question question, int questionPos, int answerPos, Button btn) {
-            mListener.onAnswerClick(questionPos, answerPos);
-            if (question.getSelectedAnswerPosition()!=0) {
-                Log.e("----------", question.getSelectedAnswerPosition() + "");
-                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
-                    btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_blue_button));
-                    btn.setTextColor(btn.getResources().getColor(R.color.white));
-                } else {
-                    btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_red_button));
-                    btn.setTextColor(btn.getResources().getColor(R.color.white));
-                }
+        private void changeButtonColorOnClick(Question question, int answerPos, Button btn) {
+            mListener.onAnswerClick(getAdapterPosition(), answerPos);
+            if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                btn.setTextColor(btn.getResources().getColor(R.color.white));
             } else {
-                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_outline_blue_button));
-                btn.setTextColor(btn.getResources().getColor(R.color.blue));
+                btn.setBackground(btn.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                btn.setTextColor(btn.getResources().getColor(R.color.white));
+            }
+        }
+
+        private void resetButtonColor(Button btn) {
+            btn.setBackground(button.getContext().getResources().getDrawable(R.drawable.round_outline_blue_button));
+            btn.setTextColor(button.getContext().getResources().getColor(R.color.blue));
+            btn.setEnabled(true);
+        }
+
+        private void selectedButton(Question question) {
+            if (question.getSelectedAnswerPosition() != null) {
+                if (question.getSelectedAnswerPosition() >= 0) {
+                    if (question.getType() == EType.BOOLEAN) {
+                        switch (question.getSelectedAnswerPosition()) {
+                            case 0:
+                                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                                    buttonYes.setBackground(buttonYes.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                                    buttonYes.setTextColor(buttonYes.getResources().getColor(R.color.white));
+                                } else {
+                                    buttonYes.setBackground(buttonYes.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                                    buttonYes.setTextColor(buttonYes.getResources().getColor(R.color.white));
+                                }
+                                break;
+                            case 1:
+                                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                                    buttonNo.setBackground(buttonNo.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                                    buttonNo.setTextColor(buttonNo.getResources().getColor(R.color.white));
+                                } else {
+                                    buttonNo.setBackground(buttonNo.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                                    buttonNo.setTextColor(buttonNo.getResources().getColor(R.color.white));
+                                }
+                                break;
+                        }
+                    } else {
+                        switch (question.getSelectedAnswerPosition()) {
+                            case 0:
+                                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                                    button.setBackground(button.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                                    button.setTextColor(button.getResources().getColor(R.color.white));
+                                } else {
+                                    button.setBackground(button.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                                    button.setTextColor(button.getResources().getColor(R.color.white));
+                                }
+                                break;
+                            case 1:
+                                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                                    button1.setBackground(button1.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                                    button1.setTextColor(button1.getResources().getColor(R.color.white));
+                                } else {
+                                    button1.setBackground(button1.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                                    button1.setTextColor(button1.getResources().getColor(R.color.white));
+                                }
+                                break;
+                            case 2:
+                                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                                    button2.setBackground(button2.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                                    button2.setTextColor(button2.getResources().getColor(R.color.white));
+                                } else {
+                                    button2.setBackground(button2.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                                    button2.setTextColor(button2.getResources().getColor(R.color.white));
+                                }
+                                break;
+                            case 3:
+                                if (question.getAnswers().get(question.getSelectedAnswerPosition()).equals(question.getCorrectAnswer())) {
+                                    button3.setBackground(button3.getContext().getResources().getDrawable(R.drawable.round_blue_button));
+                                    button3.setTextColor(button3.getResources().getColor(R.color.white));
+                                } else {
+                                    button3.setBackground(button3.getContext().getResources().getDrawable(R.drawable.round_red_button));
+                                    button3.setTextColor(button3.getResources().getColor(R.color.white));
+                                }
+                                break;
+                        }
+                    }
+                }
+                button.setEnabled(false);
+                button1.setEnabled(false);
+                button2.setEnabled(false);
+                button3.setEnabled(false);
+                buttonYes.setEnabled(false);
+                buttonNo.setEnabled(false);
             }
         }
     }
