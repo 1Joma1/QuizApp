@@ -1,7 +1,6 @@
 package com.joma.quizapp.presentation.quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,12 +21,14 @@ import com.joma.quizapp.presentation.result.ResultActivity;
 
 public class QuizActivity extends AppCompatActivity implements QuizAdapter.Listener {
 
+    private ProgressBar timerProgress;
+    private CountDownTimer countDownTimer;
+    private int timer = 0;
     private QuizViewModel quizViewModel;
     private RecyclerView recyclerView;
     private QuizAdapter adapter;
     private TextView categoryText;
     private TextView progressText;
-    private Button skipButton;
     private int amount;
     private ProgressBar loading;
     private ProgressBar quizProgress;
@@ -64,7 +67,7 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
             quizProgress.setProgress(position + 1);
             recyclerView.smoothScrollToPosition(position);
             categoryText.setText(adapter.getQuestions().get(position).getCategory());
-            skipButton.setVisibility(View.VISIBLE);
+            countDownTimer.start();
         });
         quizViewModel.finishEvent.observe(this, aVoid -> finish());
         quizViewModel.openResultEvent.observe(this, id -> ResultActivity.start(this, id));
@@ -73,11 +76,11 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
     }
 
     private void initView() {
-
         progressText = findViewById(R.id.quiz_progress_text);
         loading = findViewById(R.id.quiz_loading_progress);
         categoryText = findViewById(R.id.quiz_category);
         quizProgress = findViewById(R.id.quiz_progress);
+        timerProgress = findViewById(R.id.quiz_timer_progress);
         ImageView backImage = findViewById(R.id.quiz_back_image);
         backImage.setOnClickListener(view -> {
             quizViewModel.onBackClick();
@@ -89,8 +92,19 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setOnTouchListener((v, event) -> true);
 
-        skipButton = findViewById(R.id.quiz_skip_button);
-        skipButton.setOnClickListener(v -> quizViewModel.onSkipClick());
+        timerProgress = findViewById(R.id.quiz_timer_progress);
+        timerProgress.setProgress(timer);
+        countDownTimer = new CountDownTimer(10000, 10) {
+            @Override
+            public void onTick(long l) {
+                timerProgress.setProgress((int)l);
+            }
+
+            @Override
+            public void onFinish() {
+                quizViewModel.onSkipClick();
+            }
+        };
     }
 
     @Override

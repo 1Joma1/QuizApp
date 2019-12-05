@@ -32,22 +32,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void viewPagerInitWithBottomNav(){
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.menu_main:
-                        viewPager.setCurrentItem(0);
-                        break;
-                    case R.id.menu_history:
-                        viewPager.setCurrentItem(1);
-                        break;
-                    case R.id.menu_settings:
-                        viewPager.setCurrentItem(2);
-                        break;
-                }
-                return true;
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.menu_main:
+                    viewPager.setCurrentItem(0);
+                    break;
+                case R.id.menu_history:
+                    viewPager.setCurrentItem(1);
+                    break;
+                case R.id.menu_settings:
+                    viewPager.setCurrentItem(2);
+                    break;
             }
+            return true;
         });
         viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
