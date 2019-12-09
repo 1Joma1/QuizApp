@@ -1,7 +1,10 @@
 package com.joma.quizapp.model;
 
+import android.text.Html;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
@@ -59,7 +62,7 @@ public class Question {
     }
 
     public String getQuestion() {
-        return question;
+        return Html.fromHtml(question).toString();
     }
 
     public void setQuestion(String question) {
@@ -67,7 +70,7 @@ public class Question {
     }
 
     public String getCorrectAnswer() {
-        return correctAnswer;
+        return Html.fromHtml(correctAnswer).toString();
     }
 
     public void setCorrectAnswer(String correctAnswer) {
@@ -75,7 +78,7 @@ public class Question {
     }
 
     public List<String> getIncorrectAnswers() {
-        return incorrectAnswers;
+        return fromHtml(incorrectAnswers);
     }
 
     public void setIncorrectAnswers(List<String> incorrectAnswers) {
@@ -96,5 +99,13 @@ public class Question {
 
     public void setSelectedAnswerPosition(int selectedAnswerPosition) {
         this.selectedAnswerPosition = selectedAnswerPosition;
+    }
+
+    private List<String> fromHtml(List<String> incorrectAnswers){
+        List<String> incorrects = new ArrayList<>();
+        for (String s : incorrectAnswers){
+            incorrects.add(Html.fromHtml(s).toString());
+        }
+        return incorrects;
     }
 }

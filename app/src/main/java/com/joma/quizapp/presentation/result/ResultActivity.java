@@ -27,6 +27,7 @@ public class ResultActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_ID, id);
         context.startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +39,15 @@ public class ResultActivity extends AppCompatActivity {
         resultViewModel.init(id);
 
         resultViewModel.quizResult.observe(this, quizResult -> {
-            correctAnswer.setText(quizResult.getCorrectAnswers()+"/"+quizResult.getQuestions().size());
-            percent.setText(quizResult.getCorrectAnswers()*100/quizResult.getQuestions().size()+"%");
+            correctAnswer.setText(quizResult.getCorrectAnswers() + "/" + quizResult.getQuestions().size());
+            percent.setText(quizResult.getCorrectAnswers() * 100 / quizResult.getQuestions().size() + "%");
+            difficulty.setText(quizResult.getDifficulty());
+            category.setText("Category: " + quizResult.getCategory());
         });
         finishButton.setOnClickListener(view -> finish());
     }
 
-    private void initView(){
+    private void initView() {
         id = getIntent().getIntExtra(EXTRA_ID, 0);
         finishButton = findViewById(R.id.result_finish_button);
         category = findViewById(R.id.result_category);

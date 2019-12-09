@@ -16,7 +16,7 @@ public class MainFragment extends CoreFragment {
 
     private SeekBar seekBar;
     private TextView amountText;
-    private NiceSpinner categorySpinner, difficultySpinner;
+    private NiceSpinner categorySpinner, difficultySpinner, languageSpinner;
     private Button startButton;
 
     public static MainFragment newInstance() {
@@ -36,11 +36,12 @@ public class MainFragment extends CoreFragment {
         difficultySpinner = view.findViewById(R.id.nice_spinner_difficulty);
         amountText = view.findViewById(R.id.tv_question_amount);
         startButton = view.findViewById(R.id.start_button);
+        languageSpinner = view.findViewById(R.id.nice_spinner_language);
         seekBarListener();
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QuizActivity.start(getContext(), seekBar.getProgress(), categorySpinner.getSelectedIndex(), difficultySpinner.getSelectedItem().toString());
+                QuizActivity.start(getContext(), seekBar.getProgress(), categorySpinner.getSelectedIndex(), difficultySpinner.getSelectedItem().toString(), languageSpinner.getSelectedIndex());
             }
         });
     }

@@ -11,17 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.joma.quizapp.R;
-import com.joma.quizapp.model.History;
-import com.joma.quizapp.model.Question;
+import com.joma.quizapp.model.QuizResult;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>{
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
-    private ArrayList<History> mHistories = new ArrayList<>();
+    private ArrayList<QuizResult> mHistories = new ArrayList<>();
 
     @NonNull
     @Override
@@ -40,7 +38,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView category;
         private TextView question;
@@ -55,28 +53,21 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             difficulty = itemView.findViewById(R.id.history_difficulty);
             time = itemView.findViewById(R.id.history_time);
             horiz_dots = itemView.findViewById(R.id.history_horiz_dots);
-            horiz_dots.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(itemView.getContext(), String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show();
-                }
-            });
+            horiz_dots.setOnClickListener(view -> Toast.makeText(itemView.getContext(), String.valueOf(getAdapterPosition()), Toast.LENGTH_LONG).show());
         }
 
-        public void bind(History histories){
+        public void bind(QuizResult results) {
             SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy HH:mm");
-            category.setText("Category: "+histories.getCategory());
-            question.setText("Correct answers: "+histories.getCorrectAnswers()+"/"+histories.getQuestions());
-            difficulty.setText("Difficulty: "+histories.getDifficulty());
-            time.setText(df.format(new Date(histories.getTime()*1000)));
+            category.setText("Category: " + results.getCategory());
+            question.setText("Correct answers: " + results.getCorrectAnswers() + "/" + results.getQuestions().size());
+            difficulty.setText("Difficulty: " + results.getDifficulty());
+            time.setText(df.format(results.getCreatedAt()));
         }
-
     }
 
-    public void setHistory(List<History> histories) {
+    public void setHistory(List<QuizResult> results) {
         mHistories.clear();
-        mHistories.addAll(histories);
+        mHistories.addAll(results);
         notifyDataSetChanged();
     }
-
 }

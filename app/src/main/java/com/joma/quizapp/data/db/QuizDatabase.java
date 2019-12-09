@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 import com.joma.quizapp.data.history.HistoryDao;
 import com.joma.quizapp.model.QuizResult;
 
-@Database(entities = {QuizResult.class}, version = 1, exportSchema = false)
+@Database(entities = {QuizResult.class}, version = 2, exportSchema = false)
 abstract public class QuizDatabase extends RoomDatabase {
     public abstract HistoryDao getHistoryDao();
 }

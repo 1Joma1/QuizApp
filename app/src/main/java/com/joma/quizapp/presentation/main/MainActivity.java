@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 import com.joma.quizapp.R;
+import com.joma.quizapp.core.EnglishToRussianFirebaseTranslator;
 
 public class MainActivity extends AppCompatActivity {
 

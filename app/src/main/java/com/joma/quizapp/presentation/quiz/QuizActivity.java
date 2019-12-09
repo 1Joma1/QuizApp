@@ -35,12 +35,14 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
     private static String EXTRA_AMOUNT = "amount";
     private static String EXTRA_CATEGORY = "category";
     private static String EXTRA_DIFFICULTY = "difficulty";
+    private static String EXTRA_LANGUAGE = "language";
 
-    public static void start(Context context, int amount, int category, String difficulty) {
+    public static void start(Context context, int amount, int category, String difficulty, int language) {
         Intent intent = new Intent(context, QuizActivity.class);
         intent.putExtra(EXTRA_AMOUNT, amount);
         intent.putExtra(EXTRA_CATEGORY, category);
         intent.putExtra(EXTRA_DIFFICULTY, difficulty);
+        intent.putExtra(EXTRA_LANGUAGE, language);
         context.startActivity(intent);
     }
 
@@ -51,6 +53,7 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
 
         initView();
 
+        int language = getIntent().getIntExtra(EXTRA_LANGUAGE, 0);
         Integer category = getIntent().getIntExtra(EXTRA_CATEGORY, 0) + 8;
         if (category == 8) category = null;
         String difficulty = getIntent().getStringExtra(EXTRA_DIFFICULTY).toLowerCase();
@@ -60,13 +63,14 @@ public class QuizActivity extends AppCompatActivity implements QuizAdapter.Liste
         quizProgress.setMax(amount);
 
         quizViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
-        quizViewModel.questions.observe(this, questions -> adapter.setQuestions(questions));
+        quizViewModel.questions.observe(this, questions -> adapter.setQuestions(questions, language));
         quizViewModel.currentQuestionPosition.observe(this, position -> {
             String progressString = position + 1 + "/" + amount;
             progressText.setText(progressString);
             quizProgress.setProgress(position + 1);
             recyclerView.smoothScrollToPosition(position);
             categoryText.setText(adapter.getQuestions().get(position).getCategory());
+            countDownTimer.cancel();
             countDownTimer.start();
         });
         quizViewModel.finishEvent.observe(this, aVoid -> finish());

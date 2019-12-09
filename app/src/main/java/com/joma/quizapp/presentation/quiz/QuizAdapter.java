@@ -1,6 +1,5 @@
 package com.joma.quizapp.presentation.quiz;
 
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.joma.quizapp.App;
 import com.joma.quizapp.R;
 import com.joma.quizapp.model.EType;
 import com.joma.quizapp.model.Question;
@@ -22,6 +22,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
 
     private ArrayList<Question> mQuestions = new ArrayList<>();
     private QuizAdapter.Listener mListener;
+    private int language = 0;
 
     public QuizAdapter(QuizAdapter.Listener listener) {
         this.mListener = listener;
@@ -44,7 +45,8 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         return mQuestions.size();
     }
 
-    public void setQuestions(List<Question> qestions) {
+    public void setQuestions(List<Question> qestions, int language) {
+        this.language = language;
         mQuestions.clear();
         mQuestions.addAll(qestions);
         notifyDataSetChanged();
@@ -86,8 +88,11 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
         }
 
         void bind(Question question) {
-            questionText.setText(Html.fromHtml(question.getQuestion()));
-
+            if (language == 1) {
+                App.translator.translate(question.getQuestion()).addOnSuccessListener(s -> questionText.setText(s));
+            } else {
+                questionText.setText(question.getQuestion());
+            }
             if (question.getType() == EType.MULTIPLE) {
                 multiLayout.setVisibility(View.VISIBLE);
                 booleanLayout.setVisibility(View.GONE);
@@ -96,10 +101,10 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 resetButtonColor(button2);
                 resetButtonColor(button3);
                 selectedButton(question);
-                button.setText(Html.fromHtml(question.getAnswers().get(0)));
-                button1.setText(Html.fromHtml(question.getAnswers().get(1)));
-                button2.setText(Html.fromHtml(question.getAnswers().get(2)));
-                button3.setText(Html.fromHtml(question.getAnswers().get(3)));
+                translateButton(button, question.getAnswers().get(0));
+                translateButton(button1, question.getAnswers().get(1));
+                translateButton(button2, question.getAnswers().get(2));
+                translateButton(button3, question.getAnswers().get(3));
                 button.setOnClickListener(view -> changeButtonColorOnClick(question, 0, button));
                 button1.setOnClickListener(view -> changeButtonColorOnClick(question, 1, button1));
                 button2.setOnClickListener(view -> changeButtonColorOnClick(question, 2, button2));
@@ -110,10 +115,18 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.ViewHolder> {
                 resetButtonColor(buttonYes);
                 resetButtonColor(buttonNo);
                 selectedButton(question);
-                buttonYes.setText(Html.fromHtml(question.getAnswers().get(0)));
-                buttonNo.setText(Html.fromHtml(question.getAnswers().get(1)));
+                translateButton(buttonYes, question.getAnswers().get(0));
+                translateButton(buttonNo, question.getAnswers().get(1));
                 buttonYes.setOnClickListener(view -> changeButtonColorOnClick(question, 0, buttonYes));
                 buttonNo.setOnClickListener(view -> changeButtonColorOnClick(question, 1, buttonNo));
+            }
+        }
+
+        private void translateButton(Button btn, String text) {
+            if (language==1) {
+                App.translator.translate(text).addOnSuccessListener(s -> btn.setText(s));
+            } else {
+                btn.setText(text);
             }
         }
 

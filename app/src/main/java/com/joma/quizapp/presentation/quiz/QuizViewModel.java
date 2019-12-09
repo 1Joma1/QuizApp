@@ -3,9 +3,12 @@ package com.joma.quizapp.presentation.quiz;
 import android.os.Handler;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.joma.quizapp.App;
 import com.joma.quizapp.core.SingleLiveEvent;
 import com.joma.quizapp.data.IQuizRepository;
@@ -60,7 +63,7 @@ public class QuizViewModel extends ViewModel {
     }
 
     private void finishQuiz() {
-        QuizResult result = new QuizResult(0, mQuestions, calculateResult(), new Date());
+        QuizResult result = new QuizResult(0, mQuestions, calculateResult(), new Date(), getCategory(), getDifficulty());
         int resultId = historyStorage.saveQuizResult(result);
         finishEvent.call();
         openResultEvent.setValue(resultId);
@@ -98,5 +101,23 @@ public class QuizViewModel extends ViewModel {
             }
         }
         return correctAns;
+    }
+
+    private String getCategory() {
+        for (Question question : mQuestions) {
+            if (!question.getCategory().equals(mQuestions.get(0).getCategory())) {
+                return "Mixed";
+            }
+        }
+        return mQuestions.get(0).getCategory();
+    }
+
+    private String getDifficulty() {
+        for (Question question : mQuestions) {
+            if (!question.getCategory().equals(mQuestions.get(0).getCategory())) {
+                return "All";
+            }
+        }
+        return mQuestions.get(0).getDifficulty().name();
     }
 }
